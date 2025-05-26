@@ -11,6 +11,5 @@ public class PsigendaApplication {
 		SpringApplication.run(PsigendaApplication.class, args);
 	}
 
-
 }
 

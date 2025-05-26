@@ -17,11 +17,14 @@ import java.util.List;
 @Setter
 public class Paciente extends User {
 
-    @Column(name = "plano_de_saude",nullable = false)
+    @Column(name = "plano_de_saude", nullable = false)
     private Boolean planoDeSaude;
 
     @OneToMany(mappedBy = "paciente"
             , orphanRemoval = true
-            ,cascade = CascadeType.ALL)
+            , cascade = CascadeType.ALL)
     private List<Sessao> sessoes;
+
+    @Column(nullable = false, unique = true)
+    private Long cpf;
 }
