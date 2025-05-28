@@ -1,5 +1,6 @@
 package com.psigenda.psigenda.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,9 +25,11 @@ public class Sessao {
 
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
+    @JsonIgnore
     private Paciente paciente;
 
     @ManyToOne
     @JoinColumn(name = "psicologo_id", nullable = false)
+    @JsonIgnore
     private Psicologo psicologo;
 }
