@@ -4,10 +4,7 @@ package com.psigenda.psigenda.service;
 import com.psigenda.psigenda.domain.entity.Paciente;
 import com.psigenda.psigenda.domain.entity.Psicologo;
 import com.psigenda.psigenda.domain.entity.Sessao;
-import com.psigenda.psigenda.exception.OverlapException;
-import com.psigenda.psigenda.exception.PacienteException;
-import com.psigenda.psigenda.exception.PsicologoException;
-import com.psigenda.psigenda.exception.SessaoException;
+import com.psigenda.psigenda.exception.*;
 import com.psigenda.psigenda.mapper.PacienteMapper;
 import com.psigenda.psigenda.repository.SessaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +35,6 @@ public class SessaoService {
     }
 
     public Sessao save(Sessao sessao) {
-        sessao.setComecoSessao(sessao.getComecoSessao().truncatedTo(ChronoUnit.MINUTES));
-        sessao.setFimSessao(sessao.getFimSessao().truncatedTo(ChronoUnit.MINUTES));
 
         Optional<Paciente> paciente = pacienteService.findById(sessao.getPaciente().getId());
         Optional<Psicologo> psicologo = psicologoService.findById(sessao.getPsicologo().getId());
@@ -53,16 +48,7 @@ public class SessaoService {
         sessao.setPaciente(paciente.get());
         sessao.setPsicologo(psicologo.get());
         //TODO::Check for double-booking
-        boolean overlap = repository.existsByPsicologoIdAndComecoSessaoLessThanAndFimSessaoGreaterThan(
-                sessao.getPsicologo().getId(), sessao.getFimSessao(), sessao.getComecoSessao());
-
-        boolean overlapPaciente = repository.existsByPacienteIdAndComecoSessaoLessThanAndFimSessaoGreaterThan(
-                sessao.getPaciente().getId(), sessao.getFimSessao(), sessao.getComecoSessao());
-
-
-        if (overlap || overlapPaciente) {
-            throw new OverlapException();
-        }
+        validateSave(sessao);
         return repository.save(sessao);
     }
 
@@ -94,6 +80,34 @@ public class SessaoService {
             sessao.setFimSessao(updatedSessao.getFimSessao());
         }
 
+        validatePatch(id, sessao);
+        return repository.save(sessao);
+    }
+
+    private void validateSave(Sessao sessao) {
+
+        sessao.setComecoSessao(sessao.getComecoSessao().truncatedTo(ChronoUnit.MINUTES));
+        sessao.setFimSessao(sessao.getFimSessao().truncatedTo(ChronoUnit.MINUTES));
+
+        boolean overlap = repository.existsByPsicologoIdAndComecoSessaoLessThanAndFimSessaoGreaterThan(
+                sessao.getPsicologo().getId(), sessao.getFimSessao(), sessao.getComecoSessao());
+
+        boolean overlapPaciente = repository.existsByPacienteIdAndComecoSessaoLessThanAndFimSessaoGreaterThan(
+                sessao.getPaciente().getId(), sessao.getFimSessao(), sessao.getComecoSessao());
+
+        if (overlap || overlapPaciente) {
+            throw new OverlapException();
+        }
+        if (!sessao.getComecoSessao().isBefore(sessao.getFimSessao())) {
+            throw new HorarioException();
+        }
+    }
+
+    private void validatePatch(Long id, Sessao sessao) {
+
+        sessao.setComecoSessao(sessao.getComecoSessao().truncatedTo(ChronoUnit.MINUTES));
+        sessao.setFimSessao(sessao.getFimSessao().truncatedTo(ChronoUnit.MINUTES));
+
         boolean overlap = repository.existsByPsicologoIdAndComecoSessaoLessThanAndFimSessaoGreaterThanAndIdNot(
                 sessao.getPsicologo().getId(), sessao.getFimSessao(), sessao.getComecoSessao(), sessao.getId());
 
@@ -103,6 +117,8 @@ public class SessaoService {
         if (overlap || overlapPaciente) {
             throw new OverlapException();
         }
-        return repository.save(sessao);
+        if (!sessao.getComecoSessao().isBefore(sessao.getFimSessao())) {
+            throw new HorarioException();
+        }
     }
 }
