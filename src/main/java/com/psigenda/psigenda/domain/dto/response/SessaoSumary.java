@@ -6,14 +6,12 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record SessaoResponse(
+public record SessaoSumary(
         Long id,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime comecoSessao,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime fimSessao,
-        String descricao,
-        PacienteSummary paciente,
-        PsicologoSummary psicologo
+        String descricao
 ) {
 }

@@ -1,6 +1,8 @@
 package com.psigenda.psigenda.mapper;
 
 import com.psigenda.psigenda.domain.dto.request.SessaoRequest;
+import com.psigenda.psigenda.domain.dto.response.PacienteSummary;
+import com.psigenda.psigenda.domain.dto.response.PsicologoSummary;
 import com.psigenda.psigenda.domain.dto.response.SessaoResponse;
 import com.psigenda.psigenda.domain.entity.Paciente;
 import com.psigenda.psigenda.domain.entity.Psicologo;
@@ -31,6 +33,24 @@ public class SessaoMapper {
 
     public static SessaoResponse toSessaoResponse(Sessao sessao){
 
+        PacienteSummary paciente = PacienteSummary
+                .builder()
+                .id(sessao.getPaciente().getId())
+                .nome(sessao.getPaciente().getNome())
+                .sobrenome(sessao.getPaciente().getSobrenome())
+                .cpf(sessao.getPaciente().getCpf())
+                .email(sessao.getPaciente().getEmail())
+                .build();
+
+        PsicologoSummary psicologo = PsicologoSummary
+                .builder()
+                .id(sessao.getPsicologo().getId())
+                .nome(sessao.getPsicologo().getNome())
+                .sobrenome(sessao.getPsicologo().getSobrenome())
+                .crp(sessao.getPsicologo().getCrp())
+                .email(sessao.getPsicologo().getEmail())
+                .build();
+
 
         return SessaoResponse
                 .builder()
@@ -38,8 +58,8 @@ public class SessaoMapper {
                 .comecoSessao(sessao.getComecoSessao())
                 .fimSessao(sessao.getFimSessao())
                 .descricao(sessao.getDescricao())
-                .paciente(sessao.getPaciente())
-                .psicologo(sessao.getPsicologo())
+                .paciente(paciente)
+                .psicologo(psicologo)
                 .build();
 
     }

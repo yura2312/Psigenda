@@ -13,6 +13,6 @@ public record PacienteResponse(
         String email,
         Boolean planoDeSaude,
         Long cpf,
-        List<Sessao> sessoes
+        List<SessaoSumary> sessoes
 ) {
 }

@@ -12,4 +12,12 @@ public interface SessaoRepository extends JpaRepository<Sessao, Long> {
     boolean existsByPsicologoIdAndComecoSessaoLessThanAndFimSessaoGreaterThan(
             Long psicologoId, LocalDateTime fim, LocalDateTime comeco);
 
+    boolean existsByPacienteIdAndComecoSessaoLessThanAndFimSessaoGreaterThan(
+            Long pacienteId, LocalDateTime fim, LocalDateTime comeco);
+
+    boolean existsByPsicologoIdAndComecoSessaoLessThanAndFimSessaoGreaterThanAndIdNot(
+            Long psicologoId, LocalDateTime fimSessao, LocalDateTime comecoSessao, Long id);
+
+    boolean existsByPacienteIdAndComecoSessaoLessThanAndFimSessaoGreaterThanAndIdNot(
+            Long pacienteId, LocalDateTime fimSessao, LocalDateTime comecoSessao, Long id);
 }

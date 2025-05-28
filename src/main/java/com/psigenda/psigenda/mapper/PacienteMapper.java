@@ -2,6 +2,7 @@ package com.psigenda.psigenda.mapper;
 
 import com.psigenda.psigenda.domain.dto.request.PacienteRequest;
 import com.psigenda.psigenda.domain.dto.response.PacienteResponse;
+import com.psigenda.psigenda.domain.dto.response.SessaoSumary;
 import com.psigenda.psigenda.domain.entity.Paciente;
 import com.psigenda.psigenda.domain.entity.Sessao;
 
@@ -9,11 +10,17 @@ import java.util.List;
 
 public class PacienteMapper {
 
-    public static PacienteResponse toPacienteResponse(Paciente paciente){
+    public static PacienteResponse toPacienteResponse(Paciente paciente) {
 
-        List<Sessao> sessoes = paciente.getSessoes()
+        List<SessaoSumary> sessoes = paciente.getSessoes()
                 .stream()
-                .map(sessao -> Sessao.builder().id(sessao.getId()).build())
+                .map(sessao -> SessaoSumary
+                        .builder()
+                        .id(sessao.getId())
+                        .comecoSessao(sessao.getComecoSessao())
+                        .fimSessao(sessao.getFimSessao())
+                        .descricao(sessao.getDescricao())
+                        .build())
                 .toList();
 
         return PacienteResponse
@@ -28,7 +35,7 @@ public class PacienteMapper {
                 .build();
     }
 
-    public static Paciente toPaciente(PacienteRequest pacienteRequest){
+    public static Paciente toPaciente(PacienteRequest pacienteRequest) {
 
         List<Sessao> sessoes = pacienteRequest.sessoes()
                 .stream()

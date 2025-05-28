@@ -34,8 +34,8 @@ public class SessaoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping
-    public void delete(Long id){
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
         service.delete(id);
     }
 
@@ -44,6 +44,14 @@ public class SessaoController {
         Sessao Sessao = SessaoMapper.toSessao(sessaoRequest);
         service.save(Sessao);
         SessaoResponse sessaoResponse = SessaoMapper.toSessaoResponse(Sessao);
+        return ResponseEntity.ok(sessaoResponse);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<SessaoResponse> patch(@PathVariable Long id, @RequestBody SessaoRequest sessaoRequest){
+        Sessao updatedSessao = SessaoMapper.toSessao(sessaoRequest);
+        service.patch(id, updatedSessao);
+        SessaoResponse sessaoResponse = SessaoMapper.toSessaoResponse(updatedSessao);
         return ResponseEntity.ok(sessaoResponse);
     }
 

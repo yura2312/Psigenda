@@ -8,9 +8,9 @@ import com.psigenda.psigenda.exception.OverlapException;
 import com.psigenda.psigenda.exception.PacienteException;
 import com.psigenda.psigenda.exception.PsicologoException;
 import com.psigenda.psigenda.exception.SessaoException;
+import com.psigenda.psigenda.mapper.PacienteMapper;
 import com.psigenda.psigenda.repository.SessaoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +44,7 @@ public class SessaoService {
         Optional<Paciente> paciente = pacienteService.findById(sessao.getPaciente().getId());
         Optional<Psicologo> psicologo = psicologoService.findById(sessao.getPsicologo().getId());
 
-        if (paciente.isEmpty()){
+        if (paciente.isEmpty()) {
             throw new PacienteException();
         } else if (psicologo.isEmpty()) {
             throw new PsicologoException();
@@ -55,14 +55,54 @@ public class SessaoService {
         //TODO::Check for double-booking
         boolean overlap = repository.existsByPsicologoIdAndComecoSessaoLessThanAndFimSessaoGreaterThan(
                 sessao.getPsicologo().getId(), sessao.getFimSessao(), sessao.getComecoSessao());
-        if (overlap){
+
+        boolean overlapPaciente = repository.existsByPacienteIdAndComecoSessaoLessThanAndFimSessaoGreaterThan(
+                sessao.getPaciente().getId(), sessao.getFimSessao(), sessao.getComecoSessao());
+
+
+        if (overlap || overlapPaciente) {
             throw new OverlapException();
         }
         return repository.save(sessao);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         repository.deleteById(id);
     }
-    //TODO: Update method
+
+    //TODO: patch method
+    public Sessao patch(Long id, Sessao updatedSessao) {
+        Optional<Sessao> foundSessao = repository.findById(id);
+        if (foundSessao.isEmpty()) {
+            throw new SessaoException();
+        }
+        Sessao sessao = foundSessao.get();
+
+        Optional<Paciente> foundPaciente = pacienteService.findById(updatedSessao.getPaciente().getId());
+        if (foundPaciente.isEmpty()) {
+            throw new PacienteException();
+        }
+        Paciente paciente = foundPaciente.get();
+
+        if (updatedSessao.getPaciente() != null) {
+            sessao.setPaciente(paciente);
+        }
+        if (updatedSessao.getComecoSessao() != null) {
+            sessao.setComecoSessao(updatedSessao.getComecoSessao());
+        }
+        if (updatedSessao.getFimSessao() != null) {
+            sessao.setFimSessao(updatedSessao.getFimSessao());
+        }
+
+        boolean overlap = repository.existsByPsicologoIdAndComecoSessaoLessThanAndFimSessaoGreaterThanAndIdNot(
+                sessao.getPsicologo().getId(), sessao.getFimSessao(), sessao.getComecoSessao(), sessao.getId());
+
+        boolean overlapPaciente = repository.existsByPacienteIdAndComecoSessaoLessThanAndFimSessaoGreaterThanAndIdNot(
+                sessao.getPaciente().getId(), sessao.getFimSessao(), sessao.getComecoSessao(), sessao.getId());
+
+        if (overlap || overlapPaciente) {
+            throw new OverlapException();
+        }
+        return repository.save(sessao);
+    }
 }
