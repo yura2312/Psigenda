@@ -20,14 +20,13 @@ public class PsicologoService {
     public Psicologo save(Psicologo psicologo) {
         Optional<Psicologo> crpExiste = repository.findByCrp(psicologo.getCrp());
         if (crpExiste.isPresent()) {
-            throw new CrpCadastradoException();
+            throw new CrpCadastradoException("Crp já cadastrado");
         } else {
             return repository.save(psicologo);
         }
     }
 
     public Optional<Psicologo> findById(Long id) {
-        ;
         return repository.findById(id);
     }
 

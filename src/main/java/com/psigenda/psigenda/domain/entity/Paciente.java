@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.List;
 
@@ -26,5 +27,6 @@ public class Paciente extends User {
     private List<Sessao> sessoes;
 
     @Column(nullable = false, unique = true)
+    @CPF
     private Long cpf;
 }

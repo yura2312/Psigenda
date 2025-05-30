@@ -26,7 +26,7 @@ public class PsicologoMapper {
                 .build();
     }
 
-    public static PsicologoResponse toPsicologoResponse(Psicologo psicologo){
+    public static PsicologoResponse toPsicologoResponse(Psicologo psicologo) {
 
         //TODO: Mapper sessao
         List<Sessao> sessoes = psicologo.getSessoes();

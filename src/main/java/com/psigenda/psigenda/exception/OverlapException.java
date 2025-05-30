@@ -1,5 +1,11 @@
 package com.psigenda.psigenda.exception;
 
+
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class OverlapException extends RuntimeException {
-   public OverlapException(){super("Horário já está ocupado por outro paciente!");}
+    public OverlapException(String message) {
+        super(message);
+    }
 }

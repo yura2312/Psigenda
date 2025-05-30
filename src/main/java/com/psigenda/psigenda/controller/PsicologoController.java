@@ -3,6 +3,7 @@ package com.psigenda.psigenda.controller;
 import com.psigenda.psigenda.domain.dto.request.PsicologoRequest;
 import com.psigenda.psigenda.domain.dto.response.PsicologoResponse;
 import com.psigenda.psigenda.domain.entity.Psicologo;
+import com.psigenda.psigenda.exception.PsicologoException;
 import com.psigenda.psigenda.mapper.PsicologoMapper;
 import com.psigenda.psigenda.service.PsicologoService;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class PsicologoController {
     public ResponseEntity<PsicologoResponse> findById(@PathVariable Long id){
         return service.findById(id)
                 .map(found -> ResponseEntity.ok(PsicologoMapper.toPsicologoResponse(found)))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(PsicologoException::new);
     }
 
     @DeleteMapping("/{id}")

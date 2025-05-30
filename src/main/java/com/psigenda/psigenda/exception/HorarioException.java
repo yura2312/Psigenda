@@ -1,7 +1,10 @@
 package com.psigenda.psigenda.exception;
 
-import com.psigenda.psigenda.domain.entity.Sessao;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class HorarioException extends RuntimeException {
-    public HorarioException(){super("Horário impossível");}
+    public HorarioException(String message) {
+        super(message);
+    }
 }

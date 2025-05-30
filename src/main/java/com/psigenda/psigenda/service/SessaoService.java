@@ -5,7 +5,6 @@ import com.psigenda.psigenda.domain.entity.Paciente;
 import com.psigenda.psigenda.domain.entity.Psicologo;
 import com.psigenda.psigenda.domain.entity.Sessao;
 import com.psigenda.psigenda.exception.*;
-import com.psigenda.psigenda.mapper.PacienteMapper;
 import com.psigenda.psigenda.repository.SessaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,10 @@
 package com.psigenda.psigenda.exception;
 
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
 public class PacienteException extends RuntimeException {
-    public PacienteException(){super("Paciente não existe");}
+    public PacienteException(String message) {
+        super(message);
+    }
+
 }

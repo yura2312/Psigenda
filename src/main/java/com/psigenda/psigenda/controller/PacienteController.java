@@ -3,6 +3,7 @@ package com.psigenda.psigenda.controller;
 import com.psigenda.psigenda.domain.dto.request.PacienteRequest;
 import com.psigenda.psigenda.domain.dto.response.PacienteResponse;
 import com.psigenda.psigenda.domain.entity.Paciente;
+import com.psigenda.psigenda.exception.PacienteException;
 import com.psigenda.psigenda.mapper.PacienteMapper;
 import com.psigenda.psigenda.service.PacienteService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class PacienteController {
     public ResponseEntity<PacienteResponse> findById(@PathVariable Long id) {
         return service.findById(id)
                 .map(found -> ResponseEntity.ok(PacienteMapper.toPacienteResponse(found)))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(PacienteException::new);
     }
 
     @DeleteMapping("/{id}")

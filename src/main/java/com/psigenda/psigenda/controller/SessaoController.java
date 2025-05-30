@@ -3,6 +3,7 @@ package com.psigenda.psigenda.controller;
 import com.psigenda.psigenda.domain.dto.request.SessaoRequest;
 import com.psigenda.psigenda.domain.dto.response.SessaoResponse;
 import com.psigenda.psigenda.domain.entity.Sessao;
+import com.psigenda.psigenda.exception.SessaoException;
 import com.psigenda.psigenda.mapper.SessaoMapper;
 import com.psigenda.psigenda.service.SessaoService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class SessaoController {
     public ResponseEntity<SessaoResponse> findById(@PathVariable Long id) {
         return service.findById(id)
                 .map(found -> ResponseEntity.ok(SessaoMapper.toSessaoResponse(found)))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(SessaoException::new);
     }
 
     @DeleteMapping("/{id}")

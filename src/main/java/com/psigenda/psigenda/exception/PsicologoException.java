@@ -1,7 +1,11 @@
 package com.psigenda.psigenda.exception;
 
+
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class PsicologoException extends RuntimeException {
-    public PsicologoException() {
-        super("Psicologo não existe");
+    public PsicologoException(String message) {
+        super(message);
     }
 }
