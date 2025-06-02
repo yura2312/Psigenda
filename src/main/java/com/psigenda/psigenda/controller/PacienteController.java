@@ -1,5 +1,6 @@
 package com.psigenda.psigenda.controller;
 
+import com.psigenda.psigenda.doc.PacienteDoc;
 import com.psigenda.psigenda.domain.dto.request.PacienteRequest;
 import com.psigenda.psigenda.domain.dto.response.PacienteResponse;
 import com.psigenda.psigenda.domain.entity.Paciente;
@@ -12,12 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/pacientes")
-public class PacienteController {
+public class PacienteController implements PacienteDoc {
     private final PacienteService service;
 
     @PostMapping

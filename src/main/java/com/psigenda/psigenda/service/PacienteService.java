@@ -22,7 +22,7 @@ public class PacienteService {
     public Paciente save(Paciente paciente) {
         Optional<Paciente> cpfExiste = repository.findByCpf(paciente.getCpf());
         if (cpfExiste.isPresent()) {
-            throw new CpfCadastradoException("Cpf já cadastrado");
+            throw new CpfCadastradoException();
         } else {
             return repository.save(paciente);
         }

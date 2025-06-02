@@ -1,7 +1,9 @@
 package com.psigenda.psigenda.controller;
 
+import com.psigenda.psigenda.doc.SessaoDoc;
 import com.psigenda.psigenda.domain.dto.request.SessaoRequest;
 import com.psigenda.psigenda.domain.dto.response.SessaoResponse;
+import com.psigenda.psigenda.domain.dto.response.SessaoSummary;
 import com.psigenda.psigenda.domain.entity.Sessao;
 import com.psigenda.psigenda.exception.SessaoException;
 import com.psigenda.psigenda.mapper.SessaoMapper;
@@ -15,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/sessoes")
-public class SessaoController {
+public class SessaoController implements SessaoDoc {
 
     private final SessaoService service;
 
@@ -49,10 +51,10 @@ public class SessaoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<SessaoResponse> patch(@PathVariable Long id, @RequestBody SessaoRequest sessaoRequest){
+    public ResponseEntity<SessaoSummary> patch(@PathVariable Long id, @RequestBody SessaoRequest sessaoRequest){
         Sessao updatedSessao = SessaoMapper.toSessao(sessaoRequest);
         service.patch(id, updatedSessao);
-        SessaoResponse sessaoResponse = SessaoMapper.toSessaoResponse(updatedSessao);
+        SessaoSummary sessaoResponse = SessaoMapper.toSessaoSummary(updatedSessao);
         return ResponseEntity.ok(sessaoResponse);
     }
 

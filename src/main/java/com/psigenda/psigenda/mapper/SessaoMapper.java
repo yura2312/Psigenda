@@ -4,6 +4,7 @@ import com.psigenda.psigenda.domain.dto.request.SessaoRequest;
 import com.psigenda.psigenda.domain.dto.response.PacienteSummary;
 import com.psigenda.psigenda.domain.dto.response.PsicologoSummary;
 import com.psigenda.psigenda.domain.dto.response.SessaoResponse;
+import com.psigenda.psigenda.domain.dto.response.SessaoSummary;
 import com.psigenda.psigenda.domain.entity.Paciente;
 import com.psigenda.psigenda.domain.entity.Psicologo;
 import com.psigenda.psigenda.domain.entity.Sessao;
@@ -61,6 +62,14 @@ public class SessaoMapper {
                 .paciente(paciente)
                 .psicologo(psicologo)
                 .build();
+    }
 
+    public static SessaoSummary toSessaoSummary(Sessao sessao) {
+        return SessaoSummary
+                .builder()
+                .comecoSessao(sessao.getComecoSessao())
+                .fimSessao(sessao.getFimSessao())
+                .descricao(sessao.getDescricao())
+                .build();
     }
 }

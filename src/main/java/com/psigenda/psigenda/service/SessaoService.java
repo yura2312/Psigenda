@@ -63,15 +63,15 @@ public class SessaoService {
         }
         Sessao sessao = foundSessao.get();
 
-        Optional<Paciente> foundPaciente = pacienteService.findById(updatedSessao.getPaciente().getId());
-        if (foundPaciente.isEmpty()) {
-            throw new PacienteException();
-        }
-        Paciente paciente = foundPaciente.get();
-
-        if (updatedSessao.getPaciente() != null) {
-            sessao.setPaciente(paciente);
-        }
+//        Optional<Paciente> foundPaciente = pacienteService.findById(updatedSessao.getPaciente().getId());
+//        if (foundPaciente.isEmpty()) {
+//            throw new PacienteException();
+//        }
+//        Paciente paciente = foundPaciente.get();
+//
+//        if (updatedSessao.getPaciente() != null) {
+//            sessao.setPaciente(paciente);
+//        }
         if (updatedSessao.getComecoSessao() != null) {
             sessao.setComecoSessao(updatedSessao.getComecoSessao());
         }

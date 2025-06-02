@@ -1,5 +1,6 @@
 package com.psigenda.psigenda.controller;
 
+import com.psigenda.psigenda.doc.PsicologoDoc;
 import com.psigenda.psigenda.domain.dto.request.PsicologoRequest;
 import com.psigenda.psigenda.domain.dto.response.PsicologoResponse;
 import com.psigenda.psigenda.domain.entity.Psicologo;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/psicologos")
-public class PsicologoController {
+public class PsicologoController implements PsicologoDoc {
 
     private final PsicologoService service;
 
