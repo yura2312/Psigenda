@@ -69,7 +69,8 @@ public class SessaoMapper {
                 .builder()
                 .comecoSessao(sessao.getComecoSessao())
                 .fimSessao(sessao.getFimSessao())
-                .descricao(sessao.getDescricao())
+                .psicologo(sessao.getPsicologo().getNome())
+                .paciente(sessao.getPaciente().getNome())
                 .build();
     }
 }

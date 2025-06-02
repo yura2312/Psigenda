@@ -12,5 +12,5 @@ public record PsicologoResponse(
         String sobrenome,
         String email,
         Long crp,
-        List<Sessao> sessoes) {
+        List<SessaoSummary> sessoes) {
 }

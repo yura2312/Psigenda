@@ -46,7 +46,7 @@ public class SessaoService {
 
         sessao.setPaciente(paciente.get());
         sessao.setPsicologo(psicologo.get());
-        //TODO::Check for double-booking
+
         validateSave(sessao);
         return repository.save(sessao);
     }
@@ -55,7 +55,7 @@ public class SessaoService {
         repository.deleteById(id);
     }
 
-    //TODO: patch method
+
     public Sessao patch(Long id, Sessao updatedSessao) {
         Optional<Sessao> foundSessao = repository.findById(id);
         if (foundSessao.isEmpty()) {

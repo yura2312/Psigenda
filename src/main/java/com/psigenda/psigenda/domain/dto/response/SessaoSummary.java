@@ -11,6 +11,8 @@ public record SessaoSummary(
         LocalDateTime comecoSessao,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime fimSessao,
-        String descricao
+        String descricao,
+        String psicologo,
+        String paciente
 ) {
 }

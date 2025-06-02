@@ -2,10 +2,12 @@ package com.psigenda.psigenda.mapper;
 
 import com.psigenda.psigenda.domain.dto.request.PsicologoRequest;
 import com.psigenda.psigenda.domain.dto.response.PsicologoResponse;
+import com.psigenda.psigenda.domain.dto.response.SessaoSummary;
 import com.psigenda.psigenda.domain.entity.Psicologo;
 import com.psigenda.psigenda.domain.entity.Sessao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PsicologoMapper {
 
@@ -28,9 +30,18 @@ public class PsicologoMapper {
 
     public static PsicologoResponse toPsicologoResponse(Psicologo psicologo) {
 
-        //TODO: Mapper sessao
-        List<Sessao> sessoes = psicologo.getSessoes();
+        List<SessaoSummary> sessoes = psicologo.getSessoes().stream()
+                .map(sessaoList ->{ String psicologoFullName = psicologo.getNome() + " " + psicologo.getSobrenome();
+        String pacienteFullName = sessaoList.getPaciente().getNome() + " " + sessaoList.getPaciente().getSobrenome();
 
+        return SessaoSummary.builder()
+                .comecoSessao(sessaoList.getComecoSessao())
+                .fimSessao(sessaoList.getFimSessao())
+                .descricao(sessaoList.getDescricao())
+                .psicologo(psicologoFullName)
+                .paciente(pacienteFullName)
+                .build();})
+                .toList();
         return PsicologoResponse
                 .builder()
                 .id(psicologo.getId())
