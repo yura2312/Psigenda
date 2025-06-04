@@ -52,7 +52,7 @@ public interface SessaoDoc {
     @ApiResponse(responseCode = "200", description = "Sessão alterada com sucesso",
             content = @Content(mediaType = "application/json",schema = @Schema(implementation = SessaoSummary.class)))
     @ApiResponse(responseCode = "409", description = "Horário ocupado", content = @Content())
-    @ApiResponse(responseCode = "", description = "Erro de digitação no horário da consulta, começo <fim",content = @Content())
+    @ApiResponse(responseCode = "400", description = "Erro de digitação no horário da consulta, começo <fim",content = @Content())
     public ResponseEntity<SessaoSummary> patch(@PathVariable Long id, @RequestBody SessaoRequest sessaoRequest);
 
 
