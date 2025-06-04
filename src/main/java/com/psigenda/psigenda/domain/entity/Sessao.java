@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Sessao {
 
-    //TODO: Deal with race conditions.
+    //TODO: Deal with race conditions. probabily not doing it
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

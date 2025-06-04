@@ -1,6 +1,6 @@
 package com.psigenda.psigenda.security;
 
-import com.psigenda.psigenda.repository.LoginRepository;
+import com.psigenda.psigenda.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthorizationService implements UserDetailsService {
+public class AuthenticationService implements UserDetailsService {
 
-    private final LoginRepository repository;
+    private final UserRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findLoginByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+    var user = repository.findUserByUsername(username);
+    return user
+            .map(UserDetailsImp::new)
+            .orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 }

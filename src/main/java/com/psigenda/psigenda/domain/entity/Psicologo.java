@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Psicologo extends User {
+public class Psicologo extends Pessoa {
     @Column(nullable = false, unique = true)
     private Long crp;
 

@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Paciente extends User {
+public class Paciente extends Pessoa {
 
     @Column(name = "plano_de_saude", nullable = false)
     private Boolean planoDeSaude;

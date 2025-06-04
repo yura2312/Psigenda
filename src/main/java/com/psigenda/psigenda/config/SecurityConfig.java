@@ -24,8 +24,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authorize -> {
-                            authorize.
-                                    requestMatchers(HttpMethod.POST, "/sessoes").hasRole("ADMIN")
+                            authorize
+                                    .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                    .requestMatchers(HttpMethod.POST, "/sessoes").hasRole("ADMIN")
                                     .anyRequest().authenticated();
                         }
                 )

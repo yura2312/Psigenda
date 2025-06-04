@@ -2,9 +2,11 @@ package com.psigenda.psigenda.security;
 
 import com.psigenda.psigenda.domain.dto.request.LoginRequest;
 import com.psigenda.psigenda.domain.dto.request.RegisterRequest;
-import com.psigenda.psigenda.domain.entity.Login;
-import com.psigenda.psigenda.repository.LoginRepository;
+import com.psigenda.psigenda.domain.dto.response.RegisterResponse;
+import com.psigenda.psigenda.domain.entity.User;
+import com.psigenda.psigenda.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -22,10 +24,11 @@ public class AuthenticationController {
     private final LoginService loginService;
 
     @PostMapping("/register")
-    //TODO: Register method
-    public ResponseEntity register(@RequestBody RegisterRequest register){
-        //Login saveLogin = loginService.save(register);
-        return ResponseEntity.ok().build();
+
+    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest register){
+        User saveUser = loginService.save(UserMapper.toUser(register));
+        RegisterResponse registerResponse = UserMapper.toRegisterResponse(saveUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registerResponse);
     }
 
     @PostMapping("/login")
