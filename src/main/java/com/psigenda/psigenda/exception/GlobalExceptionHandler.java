@@ -1,5 +1,7 @@
 package com.psigenda.psigenda.exception;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -75,4 +77,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle("Sessão não existe");
         return problemDetail;
     }
+
+    @ExceptionHandler(JWTCreationException.class)
+    private ProblemDetail JWTHandler(JWTCreationException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
+        problemDetail.setTitle("Erro ao gerar token");
+        return problemDetail;
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    private ProblemDetail JWTVerificationHandler(JWTVerificationException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
+        problemDetail.setTitle("Erro ao validar token");
+        return problemDetail;
+    }
+
 }
