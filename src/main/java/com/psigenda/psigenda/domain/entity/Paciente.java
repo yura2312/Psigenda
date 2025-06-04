@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,9 +25,13 @@ public class Paciente extends User {
     @OneToMany(mappedBy = "paciente"
             , orphanRemoval = true
             , cascade = CascadeType.ALL)
-    private List<Sessao> sessoes;
+    private List<Sessao> sessoes = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
     @CPF
-    private Long cpf;
+    private String cpf;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "psicologo_id")
+    private Psicologo psicologo;
 }

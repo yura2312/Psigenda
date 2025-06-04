@@ -28,7 +28,7 @@ public interface SessaoDoc {
                     array = @ArraySchema(schema = @Schema(implementation = SessaoResponse.class)))
     })
     @ApiResponse(responseCode = "404", description = "Sessão não existe", content = @Content())
-    public ResponseEntity<SessaoResponse> findById(@PathVariable Long id);
+    public ResponseEntity<SessaoSummary> findById(@PathVariable Long id);
 
 
     @Operation(summary = "Deleta uma sessão por ID", description = "Método responsável por deletar uma sessão")

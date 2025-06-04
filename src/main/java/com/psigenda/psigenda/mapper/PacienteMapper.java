@@ -6,13 +6,16 @@ import com.psigenda.psigenda.domain.dto.response.SessaoSummary;
 import com.psigenda.psigenda.domain.entity.Paciente;
 import com.psigenda.psigenda.domain.entity.Sessao;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class PacienteMapper {
 
     public static PacienteResponse toPacienteResponse(Paciente paciente) {
 
-        List<SessaoSummary> sessoes = paciente.getSessoes()
+        List<SessaoSummary> sessoes = Optional.ofNullable(paciente.getSessoes())
+                .orElse(Collections.emptyList())
                 .stream()
                 .map(sessao -> SessaoSummary
                         .builder()
@@ -36,7 +39,8 @@ public class PacienteMapper {
 
     public static Paciente toPaciente(PacienteRequest pacienteRequest) {
 
-        List<Sessao> sessoes = pacienteRequest.sessoes()
+        List<Sessao> sessoes = Optional.ofNullable(pacienteRequest.sessoes())
+                .orElse(Collections.emptyList())
                 .stream()
                 .map(sessaoId -> Sessao.builder().id(sessaoId).build())
                 .toList();
@@ -51,6 +55,5 @@ public class PacienteMapper {
                 .sessoes(sessoes)
                 .build();
     }
-
 
 }

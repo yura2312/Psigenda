@@ -8,6 +8,6 @@ public record PacienteSummary(
         String nome,
         String sobrenome,
         String email,
-        Long cpf
+        String cpf
 ) {
 }

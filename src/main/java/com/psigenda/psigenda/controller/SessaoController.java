@@ -31,9 +31,9 @@ public class SessaoController implements SessaoDoc {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SessaoResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<SessaoSummary> findById(@PathVariable Long id) {
         return service.findById(id)
-                .map(found -> ResponseEntity.ok(SessaoMapper.toSessaoResponse(found)))
+                .map(found -> ResponseEntity.ok(SessaoMapper.toSessaoSummary(found)))
                 .orElseThrow(SessaoException::new);
     }
 

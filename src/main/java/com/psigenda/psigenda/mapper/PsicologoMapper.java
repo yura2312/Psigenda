@@ -6,17 +6,21 @@ import com.psigenda.psigenda.domain.dto.response.SessaoSummary;
 import com.psigenda.psigenda.domain.entity.Psicologo;
 import com.psigenda.psigenda.domain.entity.Sessao;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PsicologoMapper {
 
     public static Psicologo toPsicologo(PsicologoRequest psicologoRequest) {
 
-        List<Sessao> sessoes = psicologoRequest.sessoes()
-                .stream()
-                .map(sessaoId -> Sessao.builder().id(sessaoId).build())
-                .toList();
+            List<Sessao> sessoes = Optional.ofNullable(psicologoRequest.sessoes())
+                    .orElse(Collections.emptyList())
+                    .stream()
+                    .map(sessaoId -> Sessao.builder().id(sessaoId).build())
+                    .toList();
 
         return Psicologo
                 .builder()

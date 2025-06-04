@@ -32,7 +32,7 @@ public class SessaoMapper {
                 .build();
     }
 
-    public static SessaoResponse toSessaoResponse(Sessao sessao){
+    public static SessaoResponse toSessaoResponse(Sessao sessao) {
 
         PacienteSummary paciente = PacienteSummary
                 .builder()
@@ -69,8 +69,8 @@ public class SessaoMapper {
                 .builder()
                 .comecoSessao(sessao.getComecoSessao())
                 .fimSessao(sessao.getFimSessao())
-                .psicologo(sessao.getPsicologo().getNome())
-                .paciente(sessao.getPaciente().getNome())
+                .psicologo(sessao.getPsicologo().getNome() + " " + sessao.getPsicologo().getSobrenome())
+                .paciente(sessao.getPaciente().getNome() + " " + sessao.getPsicologo().getSobrenome())
                 .build();
     }
 }

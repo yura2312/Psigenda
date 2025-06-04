@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @SuperBuilder
@@ -23,5 +25,11 @@ public class Psicologo extends User {
     @OneToMany(mappedBy = "psicologo"
             , orphanRemoval = true
             , cascade = CascadeType.ALL)
-    private List<Sessao> sessoes;
+
+    private List<Sessao> sessoes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "psicologo"
+            , cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+            , fetch = FetchType.LAZY)
+    private Set<Paciente> pacientes;
 }
